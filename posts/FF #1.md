@@ -1,3 +1,5 @@
+![A page pf paper with hand written text and drawn images](../assets/FF1_hero.jpg)
+
 ## The Why
 I really want to be better at making and designing data visualizations.  And I want others to be good at it too.  So, to help me I am going to attempt to, every week, design a data visualization and then walk through the steps I took to create it.  My hope is that by practicing regularly and writing out my steps I will become better and that others will be able to learn along with me. Everybody wins.
 
