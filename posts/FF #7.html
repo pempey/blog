@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fundamental Friday &num;6</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p><img src="file:///c:\Hailstorm\blog\assets\ff7_hero.jpg" alt="A page of paper with hand written text and cut out images placed on top"></p>
+<h1 id="fundamental-friday-6">Fundamental Friday #6</h1>
+<h2 id="the-question">The Question</h2>
+<p>This week I tasked myself with making a table that answers the following questions.</p>
+<blockquote>
+<p>What are the by quarter values for all categories for last year.</p>
+</blockquote>
+<h2 id="the-design">The Design</h2>
+<p>As usual I started with a piece of paper and sketched out a general design.  I decided to focus on the layout of the table because I felt that that was the best thing to work on given the selected visualization.  How the numbers and labels share their space is really all that a table has, so getting that set correctly is what will help the table the most.</p>
+<p>Lines are another important part of a table but I was not exactly sure what I wanted to go with for this one.  So I made some notes and left the final decision for when I was building the table.  This also goes for the justification, where the text is filling from, because despite what some may say having the numbers centred in the cell of the table is a viable option.</p>
+<p>I also thought through a title for the chart.  I know that I tend to make exploratory charts as it is more akin to the reference chats I used in my engineering career, so my titles lean to being simple descriptions.</p>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff7_design.jpg" alt="A page of paper with hand written text"></p>
+<h2 id="the-process">The Process</h2>
+<p>I was going to try and use Superset to build this chart, but the google sheets connector is currently bugged so I fell back to Tableau to build the table.  Most of the time was spent getting the grid lines the way I thought looked best.  And I settled on having all borders showing.  I looked at having no borders around to category names, but with the center justification they felt disconnected.</p>
+<p>I also went with filled cells on the quarter labels. I did this because I felt the labels needed a little bit of differentiation from the category labels, while still keeping a similar spot in the visual hierarchy with the category labels.</p>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff7_process.jpg" alt="A cut out images of a table of numbers">
+<img src="file:///c:\Hailstorm\blog\assets\ff7_final.jpg" alt="An image of a table of numbers"></p>
+<h2 id="what-i-learned">What I Learned</h2>
+<p>Spacing and grouping of elements plays a large part in a data visualization like this.  Without the grid lines the category labels were too far away from the rows to automatically connect them so the spacing was too great, but with the lines around the labels they were connected again.</p>
+<p>Thank you for reading and I hope that you learned something along with me.</p>
+
+    </body>
+    </html>
