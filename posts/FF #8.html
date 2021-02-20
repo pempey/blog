@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fundamental Friday &num;6</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p><img src="file:///c:\Hailstorm\blog\assets\ff8_hero.jpg" alt="A page of paper with hand written text and cut out images placed on top"></p>
+<h1 id="fundamental-friday-6">Fundamental Friday #6</h1>
+<h2 id="the-question">The Question</h2>
+<p>This week I tasked my self with making a pie chart that answers the following question:</p>
+<blockquote>
+<p>How did the value of B compare to all other categories last month</p>
+</blockquote>
+<h2 id="the-design">The Design</h2>
+<p>This week I took a different approach to the design. I went with a more exploratory method of design as one might when they do not know what the data was or if you were given a large data set.  As I decided to go with Python for my tool this week I took a step by step approach and kept the full process in a jupyter notebook to preserve my steps as you might need to do for a repeated process.  This kind of process helps when you may have to automate the visualization creation and is similar to the approach a Data Scientist may take  during the initial discovery period of a new project.</p>
+<p>But will does leave the description of the formal design this week very short, so on to the process.</p>
+<h2 id="the-process">The Process</h2>
+<p>After loading in the data I took a loot at the first few records in the data set.</p>
+<pre><code class="language-python"><div>practice_data.head()
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Date</th>
+<th>Category</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>2/21/2019</td>
+<td>B</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>2/22/2019</td>
+<td>E</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3</td>
+<td>2/23/2019</td>
+<td>B</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+<td>2/24/2019</td>
+<td>B</td>
+</tr>
+<tr>
+<td>4</td>
+<td>5</td>
+<td>2/25/2019</td>
+<td>E</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Seeing that I had more data than I needed I filtered the data and grouped it to be just the single value per category that I would need for a pie chart.</p>
+<pre><code class="language-python"><div>filterd_data = practice_data[(practice_data[<span class="hljs-string">&#x27;Date&#x27;</span>] &gt;= <span class="hljs-string">&#x27;1/1/2021&#x27;</span>) &amp; (practice_data[<span class="hljs-string">&#x27;Date&#x27;</span>] &lt;= <span class="hljs-string">&#x27;1/31/2021&#x27;</span>)]
+grouped_data = filterd_data.groupby(by=<span class="hljs-string">&quot;Category&quot;</span>)[<span class="hljs-string">&quot;Category&quot;</span>,<span class="hljs-string">&quot;Value&quot;</span>].sum()
+grouped_data
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td>1127</td>
+</tr>
+<tr>
+<td>C</td>
+<td>75</td>
+</tr>
+<tr>
+<td>D</td>
+<td>132</td>
+</tr>
+<tr>
+<td>E</td>
+<td>661</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>With that I made a quick and simple pie chart to see what it would look like so I could figure out what other changes to the data I might need and to start getting and idea for the style I wanted.</p>
+<pre><code class="language-python"><div>grouped_data[<span class="hljs-string">&quot;Value&quot;</span>].plot.pie(autopct=<span class="hljs-string">&quot;%.1f%%&quot;</span>)
+</div></code></pre>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff8_process_1.jpg" alt="A page of paper with hand written text and cut out images placed on top"></p>
+<p>Given the question, I decided I group all of the not B categories together to that the direct comparison will be easter for the reader.</p>
+<pre><code class="language-python"><div>renamed_data =  filterd_data
+renamed_data.loc[renamed_data[<span class="hljs-string">&quot;Category&quot;</span>] != <span class="hljs-string">&#x27;B&#x27;</span>, <span class="hljs-string">&#x27;Category&#x27;</span>] = <span class="hljs-string">&#x27;Others&#x27;</span>
+
+regrouped_data = renamed_data.groupby(by=<span class="hljs-string">&quot;Category&quot;</span>)[<span class="hljs-string">&quot;Category&quot;</span>,<span class="hljs-string">&quot;Value&quot;</span>].sum()
+regrouped_data
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td>1127</td>
+</tr>
+<tr>
+<td>Others</td>
+<td>868</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Then I looked at the pie chart again and started to implement some styling.  I wanted there to be a line at the 12 o’clock position so I rotted the starting position 90 degrees, changing the starting line from a horizontal line to a vertical line.</p>
+<pre><code class="language-python"><div>regrouped_data[<span class="hljs-string">&quot;Value&quot;</span>].plot.pie(autopct=<span class="hljs-string">&quot;%.1f%%&quot;</span>,startangle=<span class="hljs-number">90</span>)
+</div></code></pre>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff8_process_2.jpg" alt="A page of paper with hand written text and cut out images placed on top"></p>
+<p>Now that I had the raw shape I was looking for the reset was down to styling.  I started with selecting the size of the final figure so that I would be easier to read.  Then I selected colors so that in the visual hierarchy the B category was higher than the Others category.</p>
+<p>I also wanted the category labels and the percent of the category on the inside of the wedge.  I was going to have enough space and having them together on the inside saves space and prevents the reader from having to move around the figure to connect the category with the numeric value.</p>
+<p>Other elements included removing axis labels, (pie charts don’t really have axis anyway right?) adding a title, label position and justification, and selecting font sizes and colors.</p>
+<pre><code class="language-python"><div>figure = plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">8</span>))
+
+colors = [<span class="hljs-string">&#x27;tab:blue&#x27;</span>,<span class="hljs-string">&#x27;tab:gray&#x27;</span>]
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">chart_lables</span>(<span class="hljs-params">data</span>):</span>
+    category = data.index
+    total = int(data.sum())
+    pct = [x*<span class="hljs-number">100</span> / total <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> data.Value]
+    <span class="hljs-keyword">return</span> [category +<span class="hljs-string">&#x27;\n{:.1f}%&#x27;</span>.format(pct)  <span class="hljs-keyword">for</span> pct,category <span class="hljs-keyword">in</span> zip(pct,category)]
+
+labels = chart_lables(regrouped_data)
+
+regrouped_data[<span class="hljs-string">&quot;Value&quot;</span>].plot.pie(
+                                    startangle=<span class="hljs-number">90</span>,
+                                    textprops=dict(
+                                        color=<span class="hljs-string">&#x27;w&#x27;</span>,
+                                        fontsize= <span class="hljs-number">30</span>,
+                                        weight=<span class="hljs-string">&#x27;bold&#x27;</span>,
+                                        ha=<span class="hljs-string">&#x27;center&#x27;</span>
+                                    ),
+                                    labeldistance=<span class="hljs-number">0.5</span>,
+                                    colors=colors,
+                                    labels=labels
+                                ) 
+figure.suptitle(<span class="hljs-string">&#x27;The Values of B and Others for \nJanuary 2021&#x27;</span>, fontsize = <span class="hljs-number">30</span>,wrap=<span class="hljs-literal">True</span>)
+plt.ylabel(<span class="hljs-string">&#x27;&#x27;</span>)
+</div></code></pre>
+<p>And that resulted in the final chart.</p>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff8_final.jpg" alt="A page of paper with hand written text and cut out images placed on top"></p>
+<h2 id="what-i-learned">What I Learned</h2>
+<p>I learned a lot about python using this design style and I learned that the design process can be very discovery based.  I guess it is a lot like story writing where you can be an outliner or a discovery writer.  I liked the process and will be doing more of it in the future.</p>
+<p>Thanks for reading and I hope that you learned something with me along the way.</p>
+
+    </body>
+    </html>
