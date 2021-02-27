@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fundamental Friday &num;9</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        
+        
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <p><img src="file:///c:\Hailstorm\blog\assets\ff9_hero.jpg" alt="An image cut out images placed on top"></p>
+<h1 id="fundamental-friday-9">Fundamental Friday #9</h1>
+<h2 id="the-question">The Question</h2>
+<p>This week I tasked myself to create a line chart that answers the question:</p>
+<blockquote>
+<p>How have the value of C changed year to date</p>
+</blockquote>
+<h2 id="the-design">The Design</h2>
+<p>I had good success with an exploratory design style last week so I tried it again this week.  I am not sure I had as good of success this time however.  I think I relied on the <em>discovery</em> part of the design process too much and it left me without any real satisfaction with what I made this week.  I will go through the process and maybe I can convey my thoughts.</p>
+<h2 id="the-process">The Process</h2>
+<p>I decided to use R for my tool this week.  It has been many years since I last used R in any meaningful way and I have to admit that I felt a little lost.  But I made it through.</p>
+<p>I started with loading the data.</p>
+<pre><code class="language-R"><div>head(raw_data)
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ID</th>
+<th>Date</th>
+<th>Category</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>2019-02-24</td>
+<td>C</td>
+<td>61</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>2019-02-25</td>
+<td>C</td>
+<td>62</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>2019-02-26</td>
+<td>E</td>
+<td>46</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>2019-02-27</td>
+<td>C</td>
+<td>59</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5</td>
+<td>2019-02-28</td>
+<td>C</td>
+<td>62</td>
+</tr>
+<tr>
+<td>6</td>
+<td>6</td>
+<td>2019-03-01</td>
+<td>D</td>
+<td>32</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>It did need to be filtered down as I was only interested in one category and the year to date time range.</p>
+<pre><code class="language-R"><div>filtered_data &lt;- filter(raw_data, Category == <span class="hljs-string">&quot;C&quot;</span> &amp; Date &gt;= as.Date(<span class="hljs-string">&quot;2021-01-01&quot;</span>) &amp; Date &lt;= as.Date(<span class="hljs-string">&quot;2021-02-28&quot;</span>))
+head(filtered_data)
+</div></code></pre>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ID</th>
+<th>Date</th>
+<th>Category</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>683</td>
+<td>2021-01-06</td>
+<td>C</td>
+<td>33</td>
+</tr>
+<tr>
+<td>2</td>
+<td>688</td>
+<td>2021-01-11</td>
+<td>C</td>
+<td>33</td>
+</tr>
+<tr>
+<td>3</td>
+<td>689</td>
+<td>2021-01-12</td>
+<td>C</td>
+<td>33</td>
+</tr>
+<tr>
+<td>4</td>
+<td>696</td>
+<td>2021-01-19</td>
+<td>C</td>
+<td>35</td>
+</tr>
+<tr>
+<td>5</td>
+<td>698</td>
+<td>2021-01-21</td>
+<td>C</td>
+<td>35</td>
+</tr>
+<tr>
+<td>6</td>
+<td>703</td>
+<td>2021-01-26</td>
+<td>C</td>
+<td>33</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Then it was staring to a line chart.</p>
+<pre><code class="language-R"><div>ggplot(data = filtered_data,aes(x=Date, y=Value)) + geom_line()+ geom_point()
+</div></code></pre>
+<p><img src="file:///c:\Hailstorm\blog\assets\FF9_process_1.png" alt="An image of a line chart"></p>
+<p>Then the real work began.  I adjusted the line color and points, I left the code in for myself and not as a best practice.  I also used a built in theme for the chart background and grid lines.  I really just cycled through the themes until I found one that I liked, this was part of the ‘too much discovery’ that I was referring to earlier, I just randomly tried things without any direction.</p>
+<pre><code class="language-R"><div>plot &lt;- ggplot(data = filtered_data,aes(x=Date, y=Value)) 
+plot &lt;- plot + geom_line(size=<span class="hljs-number">1.1</span>,color=<span class="hljs-string">&quot;#2a2a2a&quot;</span>)
+plot &lt;- plot + geom_point(size=<span class="hljs-number">0</span>)
+plot &lt;- plot + theme_minimal()
+</div></code></pre>
+<p>The next part I did was to expand the y axis and adjust the grid lines so that the axis would include 0 and have some padding above the chart.  This pushed the y axis up to the next major grid line and I felt the padding helped put the line in better context.</p>
+<pre><code class="language-R"><div>plot &lt;- plot + expand_limits(y = <span class="hljs-number">5</span>)
+plot &lt;- plot + scale_y_continuous(expand = c(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>),breaks = seq(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">20</span>),minor_breaks = seq(<span class="hljs-number">0</span> , <span class="hljs-number">100</span>, <span class="hljs-number">10</span>))
+</div></code></pre>
+<p>After that was adding and styling the chart and axis titles.  I had not really thought of any Chart titles before so I actually not sure what to go with at this point. But the defaults did not put enough space between the title and the chart body so I had to add some space there.  I dropped the x axis title, with the year in the title and the axis label clearly making them dates adding a ‘Date’ title felt superfluous. For the y axis I rotated the label and lighted the text so that it was both easter to read and lower in the visual hierarchy.</p>
+<pre><code class="language-R"><div>plot &lt;- plot + ggtitle(<span class="hljs-string">&quot;The Values of Category C for 2021&quot;</span>) + xlab(<span class="hljs-string">&quot;&quot;</span>) + ylab(<span class="hljs-string">&quot;Values&quot;</span>)
+plot &lt;- plot + theme(plot.title = element_text(color=<span class="hljs-string">&quot;#515151&quot;</span>, size=<span class="hljs-number">24</span>, face=<span class="hljs-string">&quot;bold&quot;</span>, margin=margin(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0</span>)))
+plot &lt;- plot + theme(axis.title.x = element_text(color=<span class="hljs-string">&quot;blue&quot;</span>, size=<span class="hljs-number">14</span>, face=<span class="hljs-string">&quot;bold&quot;</span>))
+plot &lt;- plot + theme(axis.title.y = element_text(color=<span class="hljs-string">&quot;gray&quot;</span>, size=<span class="hljs-number">10</span>, face=<span class="hljs-string">&quot;bold&quot;</span>,angle = <span class="hljs-number">0</span>))
+</div></code></pre>
+<p>And here is all of the code together that produced the final chart.</p>
+<pre><code class="language-R"><div>plot &lt;- ggplot(data = filtered_data,aes(x=Date, y=Value)) 
+plot &lt;- plot + geom_line(size=<span class="hljs-number">1.1</span>,color=<span class="hljs-string">&quot;#2a2a2a&quot;</span>)
+plot &lt;- plot + geom_point(size=<span class="hljs-number">0</span>)
+plot &lt;- plot + theme_minimal()
+plot &lt;- plot + expand_limits(y = <span class="hljs-number">5</span>)
+plot &lt;- plot + scale_y_continuous(expand = c(<span class="hljs-number">0</span>, <span class="hljs-number">5</span>),breaks = seq(<span class="hljs-number">0</span>, <span class="hljs-number">100</span>, <span class="hljs-number">20</span>),minor_breaks = seq(<span class="hljs-number">0</span> , <span class="hljs-number">100</span>, <span class="hljs-number">10</span>))
+plot &lt;- plot + ggtitle(<span class="hljs-string">&quot;The Values of Category C for 2021&quot;</span>) + xlab(<span class="hljs-string">&quot;&quot;</span>) + ylab(<span class="hljs-string">&quot;Values&quot;</span>)
+plot &lt;- plot + theme(plot.title = element_text(color=<span class="hljs-string">&quot;#515151&quot;</span>, size=<span class="hljs-number">24</span>, face=<span class="hljs-string">&quot;bold&quot;</span>, margin=margin(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">20</span>,<span class="hljs-number">0</span>)))
+plot &lt;- plot + theme(axis.title.x = element_text(color=<span class="hljs-string">&quot;blue&quot;</span>, size=<span class="hljs-number">14</span>, face=<span class="hljs-string">&quot;bold&quot;</span>))
+plot &lt;- plot + theme(axis.title.y = element_text(color=<span class="hljs-string">&quot;gray&quot;</span>, size=<span class="hljs-number">10</span>, face=<span class="hljs-string">&quot;bold&quot;</span>,angle = <span class="hljs-number">0</span>))
+plot
+</div></code></pre>
+<p><img src="file:///c:\Hailstorm\blog\assets\ff9_final.png" alt="An image of a line chart with title"></p>
+<h2 id="what-i-learned">What I Learned</h2>
+<p>This week I learned that there are steps of the design process that really help me.  Going straight into making the chart from the exploratory analysis phase does not help me make a good chart.  I do better when I think about what I want to make and how I want the viewer to interact with the chart.  Next week I think I am going to try a hybrid of the two approaches.</p>
+<p>Thank you for reading and I hope that you learned something this week.</p>
+
+    </body>
+    </html>

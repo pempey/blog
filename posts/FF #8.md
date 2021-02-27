@@ -1,6 +1,6 @@
 ![A page of paper with hand written text and cut out images placed on top](../assets/ff8_hero.jpg)
 
-# Fundamental Friday #6
+# Fundamental Friday #8
 
 ## The Question
 
